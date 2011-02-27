@@ -1,0 +1,35 @@
+Galleria-YUI - Galleria like gallery view based on yui3
+
+1) Collection .configxml
+<bxcms xmlns="http://bitflux.org/config">
+
+    <plugins>
+        <extension type="html"/>
+        <extension type="jpg"/>
+        <extension type="jpeg"/>
+        <extension type="gif"/>
+        <extension type="png"/>
+        <parameter name="xslt" type="pipeline" value="plugins/gallery/galleria-yui.xsl"/>
+        <plugin type="gallery">
+            <parameter name="columnsPerPage" value="4"/>
+            <parameter name="rowsPerPage" value="4"/>
+            <parameter name="descriptionInOverview" value="true"/>
+            <parameter name="titleInOverview" value="true"/>
+        </plugin>
+        <plugin type="navitree"/>
+    </plugins>
+
+</bxcms>
+
+2) Yui3
+Galleria-yui is built with the animated gallery slideshow widget from Yui3. 
+By default, galleria-yui.xsl includes yui3 locally from /webinc/yui3. 
+The slideshow widget module is included from webinc/plugins/galleria-yui/js/.
+Adjust the appropriate lines in galleria-yui.xsl if needed.
+
+3) bx_plugins_gallery_file
+
+
+4) Resources
+- xsl for view rendering is themes/<theme>/plugins/gallery/galleria-yui.xsl
+- inlcuded js and css files are located at webinc/plugins/galleria-yui/*

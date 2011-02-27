@@ -1,0 +1,7 @@
+#gallery {position: relative; width:540px}
+.slides {position: relative; overflow: hidden; width:540px; height:320px;}
+.gallery-thumbnails {}
+.slide { display: none; position: absolute; }
+.slide.current { display: block; }
+.inactive {color: #ccc; cursor: default;}
+.current {font-weight: 700;}

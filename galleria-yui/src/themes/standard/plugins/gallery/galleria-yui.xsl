@@ -60,9 +60,11 @@
                 <xsl:apply-templates select="$gallery/images/image" mode="stage"/>
             </div>
             <div class="slide-info">
+                <!--  
                 <xsl:if test="$gallery/images/image[position() = $current]">
                     <xsl:value-of select="$gallery/images/image[position()=$current]/text()"/>
                 </xsl:if>
+                -->
             </div>
         </div>
         <div class="gallery-thumbnails">
@@ -87,7 +89,6 @@
         <xsl:variable name="src">
             <xsl:value-of select="concat($webroot, 'dynimages/', $thumbWidth, '/', $href)"/>
         </xsl:variable> 
-       
         <img title="" alt="" src="{$src}" border="0" class="thumbnail"/>
         <xsl:if test="position() mod $numCols = 0">
             <br class="antileft"/>
@@ -110,7 +111,7 @@
         <xsl:variable name="large">
             <xsl:value-of select="concat($webroot, 'dynimages/', $largeWidth, '/', $href)"/>
         </xsl:variable> 
-        <a href="{concat($webroot, $href)}">
+        <a href="{concat($webroot, $href)}" class="gallery-stage-link">
         <img title="{@imageTitle}" 
 		    alt="{./text()}"
 		    src="{$large}"

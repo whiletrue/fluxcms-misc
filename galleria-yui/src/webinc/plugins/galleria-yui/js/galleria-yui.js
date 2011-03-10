@@ -17,7 +17,8 @@ YUI({
 		slideInfo,
 		infoAnimIn,
 		prev, 
-		next;
+		next,
+		stageLink;
 		
 	// gallery
     gallery = new Y.SlideshowAnimated({contentBox: Y.one('#gallery')});
@@ -27,13 +28,21 @@ YUI({
     infoAnimIn.set('node', slideInfo);
    	 
 	var showSlideInfo = function(slide, number) {
+		var html='', link;
 		slideInfo.setStyle('opacity', 0.0);
     	slideInfo.set('innerHTML', '');
-   		var desc = slide.get('alt');
-    	if (desc!='') {
-    		slideInfo.set('innerHTML', desc);
-    		infoAnimIn.run();		
+   		html = slide.get('alt');
+    	
+    	link = slide.get('parentNode');
+    	if (link) {
+    		html+= ' <a href="'+link.get('href')+'">Grossformat</a>';
     	}
+    	
+    	if (html!='') {
+    		slideInfo.set('innerHTML', html);
+    		infoAnimIn.run();
+    	}
+    	
 	};
 	
 	var updatePager = function(slide, number) {
@@ -54,18 +63,34 @@ YUI({
 		
 	};
 	
-	gallery.stop();
-    gallery.on('slideshow:before-slide-displayed', function(e) {
+	var toggleThumbnails = function(activePos) {
+    	var p, num=0;
+    	Y.all('.gallery-thumbnails img.thumbnail').each(function(e) {
+    		if (activePos ==  num && !e.hasClass('thumbnail-active')) {
+				e.addClass('thumbnail-active');
+			} else {
+				e.removeClass('thumbnail-active');
+			}
+			num++;
+    	});
+    };
+	
+	var beforeSlideDisplayed = function(e) {
     	showSlideInfo(e.slide);
-    	updatePager(e.slide, e.slide_number)
-    });
+    	updatePager(e.slide, e.slide_number);
+    	toggleThumbnails(e.slide_number);
+    };
+	
+	gallery.stop();
+    gallery.on('slideshow:before-slide-displayed', beforeSlideDisplayed);
 	
 	
 	// thumbnails
     thumbs = Y.all('.gallery-thumbnails img.thumbnail');
     thumbs.each(function(el) {
     	var num = i;
-    	el.on('click', function() {
+    	el.on('click', function(e) {
+    		toggleThumbnails(num);
     		gallery.show_slide(num);
     	});
     	i++;
@@ -86,9 +111,24 @@ YUI({
     		return false;
     	});
     }
-    
+    stageLink = Y.all('.gallery-stage-link');
+    stageLink.each(function(el) {
+    	el.on('click', function(e) {
+    		e.preventDefault();
+    		gallery.advance();
+    		return false;
+    	});
+    	
+    });
+	
     gallery.render();
-        
+    beforeSlideDisplayed({
+    	slide: gallery.get('slides').item(gallery.display_slide), 
+        slide_number: gallery.display_slide
+    });
+    
+    
+    
     
 });
       

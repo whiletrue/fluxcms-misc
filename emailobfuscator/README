@@ -1,0 +1,10 @@
+Email address obfuscator based on rot13
+
+1) copy the files
+
+2) disable default popoon obfuscation in sitemamp/sitemap.xml
+-   <map:parameter name="obfuscateMailJS" value="true"/>
++   <map:parameter name="obfuscateMailJS" value="false"/>
+
+3) include emailobfuscator.js e.g. in the default static.xsl
+<script type="text/javascript" src="{$webroot}webinc/js/emailobfuscator.js"> </script>
